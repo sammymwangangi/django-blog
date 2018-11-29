@@ -1,0 +1,35 @@
+{% extends "djapp/base.html" %}
+{% block content %}
+
+	<h2 class="mb-4">Week {{ week|date:'W' }}</h2>
+
+  {% for post in object_list %}
+  <div class="card w-75 mb-4">
+    <img class="card-img-top rounded-circle" src="{{ post.author.profile.image.url }}" alt="Card image cap" style="width:100px; height:80px">
+    <div class="card-body">
+      <h5 class="card-title"><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
+      <p class="card-text">{{ post.content|truncatewords:50 }}</p>
+      <blockquote class="blockquote mb-1">
+        <footer class="blockquote-footer">by <cite title="Source Title"><a href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a></cite></footer>
+      </blockquote>
+
+    <div class="card-footer">
+        <small class="text-muted">{{ post.date_posted|date:"F j, Y" }}</small>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+    <p>No Posts available now!</p>
+  {% endfor %}
+
+  <p>
+      {% if previous_week %}
+          <a class="btn btn-outline-info mb-4" href="{{ previous_week|date:"W" }}">previous</a>
+      {% endif %}
+      {% if previous_week and next_week %}--{% endif %}
+      {% if next_week %}
+          <a class="btn btn-outline-info mb-4" href="{{ next_week|date:"W" }}">next</a>
+      {% endif %}
+  </p>
+
+{% endblock content %}

@@ -1,0 +1,18 @@
+{% extends "djapp/base.html" %}
+{% load crispy_forms_tags%}
+{% block content %}
+	<div class="card text-white bg-info w-75 mb-4">
+	  	<div class="card-body">
+		  	<form method="POST">
+				{% csrf_token %}
+				<fieldset class="form-group">
+					<legend class="border-bottom mb-4">Blog Post</legend>
+					{{ form.media }}
+					{{ form|crispy }}
+				</fieldset>
+				<button class="btn btn-outline-warning" type="submit">Post</button>
+			</form>
+	  	</div>
+	</div>
+
+{% endblock content %}

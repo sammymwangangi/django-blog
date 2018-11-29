@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- Bootstrap core CSS-->
+        <link href="{% static 'djapp/css/bootstrap.min.css' %}" rel="stylesheet">
+
+        <!-- Fontawesome-->
+        <link href="{% static 'djapp/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+
+        <link href="{% static 'djapp/css/styles.css' %}" rel="stylesheet">
+
+        {% if title %}
+        	<title>Django Blog - {{ title }}</title>
+        {% else %}
+        	<title>Django Blog</title>
+        {% endif %}
+
+    </head>
+<body>
+	<div class="container-fluid">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-info mb-4">
+		  <a class="navbar-brand" href="{% url 'index' %}">Django Blog</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
+		        <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="{% url 'about' %}">About</a>
+		      </li>
+		    </ul>
+		    <ul class="navbar-nav ml-auto">
+		    	{% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+		      	<a class="dropdown-item" href="{% url 'post-create' %}">New <i class="fas fa-plus fa-fw fa-1x"></i></a>
+		      </li>
+		    	<li class="nav-item dropdown mr-lg-5">
+		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          <b>{{user.username}}</b>
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          	<a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+		          	<div class="dropdown-divider"></div>
+		        	<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+		        </div>
+		      </li>
+		      {% else %}
+		      <li class="nav-item dropdown">
+		      	<a class="dropdown-item" href="{% url 'login' %}">Login</a>
+		      </li>
+		      <li class="nav-item dropdown">
+		      	<a class="dropdown-item" href="{% url 'register' %}">Register</a>
+		      </li>
+		      {% endif %}
+		    </ul>
+		  </div>
+		</nav>
+	</div>
+
+
+	<div class="container mt-3">
+		<div class="row">
+		  	<div class="col-md-8">
+			  	{% if messages %}
+			  		{% for message in messages %}
+						<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+						  {{ message }}
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						    <span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+			  		{% endfor %}
+			  	{% endif %}
+			  	{% block content %}
+			  	{% endblock %}
+		  	</div>
+
+		  	<div class="col-md-4">
+		  		<div class="card">
+				  <div class="card-body">
+				  	<h4 class="card-title">Categories</h4>
+  					<nav class="nav flex-column">
+  					  <a class="nav-link active" href="{% url 'index' %}">Django</a>
+  					  <a class="nav-link" href="{% url 'index' %}">Python</a>
+  					  <a class="nav-link" href="{% url 'index' %}">RestAPI</a>
+  					  <a class="nav-link disabled" href="{% url 'index' %}">Database</a>
+  					</nav>
+            <div class="dropdown-divider"></div>
+            <br>
+            <h4 class="card-title">ARCHIVES</h4>
+  					<nav class="nav flex-column">
+  					</nav>
+				  </div>
+				</div>
+		  	</div>
+		</div>
+	</div>
+
+    <script src="{% static 'djapp/js/jquery.min.js' %}"></script>
+    <script src="{% static 'djapp/js/popper.min.js' %}"></script>
+    <script src="{% static 'djapp/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+</body>
+</html>
